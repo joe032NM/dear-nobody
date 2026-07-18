@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dear Nobody, I'm Joe</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <a href="/">DEAR NOBODY, I'M JOE</a>
+        </div>
+
+        <ul class="menu">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/stories">STORIES</a></li>
+            <li><a href="/about">ABOUT</a></li>
+            <li><a href="/login">LOGIN</a></li>
+        </ul>
+
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <div class="left">
+
+        <img src="{{ url_for('static', filename='images/joe.png') }}">
+
+    </div>
+
+    <div class="right">
+
+        <span class="welcome">WELCOME</span>
+
+         <h1>
+        Hi, I'm Joe🖤
+    </h1>
+
+    
+
+   </p>
+    <p class="hero-text">
+
+
+        Not my real name, but the thoughts are.
+    </p>
+
+        
+           
+         <p class="hero-text">
+        'Dear Nobody, I'm Joe' is an anonymous space
+        for the things we don't usually say out loud—
+        overthinking, bad days, small victories,
+        awkward moments and everything in between.
+
+        I'm not here to give life advice.
+        I'm simply documenting life exactly as it happens.
+        One honest story at a time.
+</p>
+        <a href="/stories" class="btn">
+            Read Stories
+        </a>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+
+
+<footer>
+
+    © 2026 Dear Nobody, I'm Joe
+
+</footer>
+
+</body>
+
+</html>

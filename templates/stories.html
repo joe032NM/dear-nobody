@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stories | Dear Nobody</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        <a href="/">Dear Nobody</a>
+    </div>
+
+    <ul class="menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/stories" class="active">Stories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<div class="dashboard">
+
+    <h1>Stories</h1>
+
+    {% if posts %}
+
+        {% for post in posts %}
+
+        <div class="story-card">
+
+            <h2>{{ post.title }}</h2>
+
+            <p>{{ post.created_at.strftime("%d %B %Y") }}</p>
+
+            <a href="/story/{{ post.id }}" class="new-btn">Read Story</a>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="story-card">
+            <h2>No stories published yet.</h2>
+            <p>Check back soon for new stories.</p>
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

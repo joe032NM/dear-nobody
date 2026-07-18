@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Dear Nobody</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <a href="/">Dear Nobody</a>
+    </div>
+
+    <ul class="menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/stories">Stories</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+
+</nav>
+
+<div class="dashboard">
+
+    <h1>Admin Dashboard</h1>
+
+    <p>Welcome back, Joe 👋</p>
+
+    <a href="/new" class="new-btn">+ New Story</a>
+
+    <h2>Your Stories</h2>
+
+    <div class="story-card">
+
+        <h3>No stories published yet.</h3>
+
+        <p>Click "New Story" to publish your first article.</p>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

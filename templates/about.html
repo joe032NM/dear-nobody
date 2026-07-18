@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+    
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        <a href="/">Dear Nobody, I'm Joe</a>
+    </div>
+
+    <ul class="menu">
+        <li><a href="/stories">Stories</a></li>
+        <li><a href="/about" class="active">About</a></li>
+    </ul>
+
+</nav>
+
+<!-- ================= IMAGE ================= -->
+
+<section class="about-page">
+
+    <img src="{{ url_for('static', filename='images/about.png') }}"
+         alt="About Image"
+         class="about-image">
+
+</section>
+
+</body>
+
+</html>
