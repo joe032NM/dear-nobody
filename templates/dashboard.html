@@ -35,19 +35,43 @@
 
     <h1>Admin Dashboard</h1>
 
-    <p>Welcome back, Joe 👋</p>
+    <p>Welcome back, {{ username }} 👋</p>
 
-    <a href="/new" class="new-btn">+ New Story</a>
+    <a href="{{ url_for('new_story') }}" class="new-btn">
+        + New Story
+    </a>
 
     <h2>Your Stories</h2>
 
-    <div class="story-card">
+    {% if posts %}
 
-        <h3>No stories published yet.</h3>
+        {% for post in posts %}
 
-        <p>Click "New Story" to publish your first article.</p>
+        <div class="story-card">
 
-    </div>
+            <h3>{{ post.title }}</h3>
+
+            <p>{{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}</p>
+
+            <small>
+                {{ post.created_at.strftime("%d %b %Y") }}
+            </small>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="story-card">
+
+            <h3>No stories published yet.</h3>
+
+            <p>Click "New Story" to publish your first article.</p>
+
+        </div>
+
+    {% endif %}
 
 </div>
 

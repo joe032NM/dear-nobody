@@ -1,18 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Story</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
 <h1>Write a New Story</h1>
 
-<form>
-    <input type="text" placeholder="Title"><br><br>
+<form action="{{ url_for('new_story') }}" method="POST">
 
-    <textarea rows="15" cols="80" placeholder="Write your story..."></textarea><br><br>
+    <input
+        type="text"
+        name="title"
+        placeholder="Story title"
+        required
+    >
 
-    <button type="submit">Publish</button>
+    <br><br>
+
+    <textarea
+        name="content"
+        rows="15"
+        cols="80"
+        placeholder="Write your story..."
+        required
+    ></textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Publish Story
+    </button>
+
 </form>
 
 </body>
