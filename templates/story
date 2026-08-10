@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Dear Nobody - Stories</title>
+</head>
+
+<body>
+
+<h1>Stories</h1>
+
+<a href="{{ url_for('new_story') }}">Write a Story</a>
+
+<hr>
+
+{% if posts %}
+
+{% for post in posts %}
+
+<article>
+
+<h2>
+<a href="{{ url_for('view_story', story_id=post.id) }}">
+{{ post.title }}
+</a>
+</h2>
+
+<p>
+By {{ post.author }}
+· {{ post.created_at.strftime('%d %B %Y') }}
+</p>
+
+<p>
+{{ post.content[:250] }}
+{% if post.content|length > 250 %}...{% endif %}
+</p>
+
+<a href="{{ url_for('view_story', story_id=post.id) }}">
+Read story →
+</a>
+
+</article>
+
+<hr>
+
+{% endfor %}
+
+{% else %}
+
+<p>No stories have been published yet.</p>
+
+{% endif %}
+
+</body>
+
+</html>
