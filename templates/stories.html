@@ -5,65 +5,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>All Stories</title>
+    <title>Dear Nobody — All Stories</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Elegant fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+          rel="stylesheet">
 
     <style>
-        body {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 30px;
-            font-family: Georgia, serif;
-            background: #ffffff;
+
+        * {
+            box-sizing: border-box;
         }
 
-        h1 {
+        body {
+            margin: 0;
+            background: #faf7f3;
+            color: #211d2b;
+            font-family: "Cormorant Garamond", serif;
+        }
+
+        /* ---------- HEADER ---------- */
+
+        header {
+            background: rgba(255, 253, 249, 0.96);
+            border-bottom: 1px solid #eadfe3;
+            padding: 18px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: "Playfair Display", serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #211d2b;
+        }
+
+        .tagline {
+            margin-left: 18px;
+            color: #766879;
+            font-size: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            margin-left: 32px;
+            text-decoration: none;
+            color: #66576a;
+            font-size: 20px;
+        }
+
+        nav a:hover {
+            color: #783d88;
+        }
+
+        nav .active {
+            color: #783d88;
+            font-weight: 600;
+        }
+
+        /* ---------- HERO ---------- */
+
+        .hero {
             text-align: center;
-            font-size: 56px;
-            margin-bottom: 50px;
+            padding: 65px 20px 45px;
+        }
+
+        .hero h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 68px;
+            margin: 0;
+        }
+
+        .heart-divider {
+            color: #bd7894;
+            font-size: 30px;
+            margin: 15px 0;
+        }
+
+        .hero p {
+            color: #766879;
+            font-size: 25px;
+            margin: 0;
+        }
+
+        /* ---------- STORIES ---------- */
+
+        .stories-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 10px 25px 80px;
         }
 
         .story-card {
-            background: #ffffff;
-            border: 1px solid #d8d8d8;
-            border-radius: 14px;
-            padding: 30px 35px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+            background: #fffdf9;
+            border: 1px solid #e3d9dc;
+            border-radius: 20px;
+            padding: 42px 48px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 25px rgba(70, 45, 65, 0.08);
+            overflow: hidden;
+        }
+
+        .story-card::after {
+            content: "♡";
+            position: absolute;
+            right: 45px;
+            bottom: 10px;
+            font-size: 115px;
+            color: #ead7df;
+            opacity: 0.35;
+            pointer-events: none;
         }
 
         .story-card h2 {
-            margin-top: 0;
-            margin-bottom: 8px;
-            font-size: 30px;
+            position: relative;
+            z-index: 1;
+            margin: 0 0 5px;
+            font-family: "Playfair Display", serif;
+            font-size: 38px;
         }
 
         .story-card h2 a {
-            color: #222222;
+            color: #211d2b;
             text-decoration: none;
         }
 
         .story-card h2 a:hover {
-            text-decoration: underline;
+            color: #783d88;
         }
 
         .story-meta {
-            color: #666666;
-            font-size: 15px;
-            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+            color: #756878;
+            font-size: 19px;
+            margin-bottom: 25px;
         }
 
         .story-preview {
-            color: #333333;
-            font-size: 18px;
-            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+            max-width: 750px;
+            color: #29242d;
+            font-size: 23px;
+            line-height: 1.65;
         }
 
         .read-more {
-            color: #7b2cbf;
-            font-size: 17px;
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            margin-top: 15px;
+            color: #783d88;
+            font-size: 21px;
+            font-weight: 600;
             text-decoration: none;
         }
 
@@ -71,66 +176,250 @@
             text-decoration: underline;
         }
 
-        .write-story {
-            display: block;
+        /* ---------- WRITE BUTTON ---------- */
+
+        .write-area {
             text-align: center;
-            margin-top: 35px;
-            font-size: 20px;
-            color: #7b2cbf;
+            margin-top: 5px;
+            margin-bottom: 70px;
         }
+
+        .write-button {
+            display: inline-block;
+            padding: 14px 42px;
+            border-radius: 40px;
+            background: #86469a;
+            color: white;
+            font-size: 23px;
+            text-decoration: none;
+            box-shadow: 0 6px 18px rgba(100, 55, 120, 0.25);
+        }
+
+        .write-button:hover {
+            background: #713681;
+        }
+
+        /* ---------- FOOTER ---------- */
+
+        footer {
+            border-top: 1px solid #e3d8dc;
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 35px;
+            text-align: center;
+            color: #756878;
+            font-size: 21px;
+        }
+
+        /* ---------- MOBILE ---------- */
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tagline {
+                display: none;
+            }
+
+            nav a {
+                margin: 0 8px;
+                font-size: 18px;
+            }
+
+            .hero {
+                padding-top: 45px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero p {
+                font-size: 21px;
+            }
+
+            .story-card {
+                padding: 30px 25px;
+            }
+
+            .story-card h2 {
+                font-size: 31px;
+            }
+
+            .story-preview {
+                font-size: 21px;
+            }
+
+            .story-card::after {
+                right: 10px;
+                font-size: 80px;
+            }
+        }
+
     </style>
 </head>
 
+
 <body>
 
-    <h1>All Stories</h1>
+    <!-- HEADER -->
 
-    {% for post in posts %}
+    <header>
 
-    <div class="story-card">
+        <div class="brand">
 
-        <h2>
-            <a href="{{ url_for('view_story', story_id=post.id) }}">
-                {{ post.title }}
+            <div class="logo">
+                Dear Nobody
+            </div>
+
+            <div class="tagline">
+                Stories for a kinder world
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="{{ url_for('home') }}">
+                Home
             </a>
-        </h2>
 
-        <div class="story-meta">
-            By {{ post.author }}
-            · {{ post.created_at.strftime('%d %B %Y') }}
-        </div>
+            <a href="{{ url_for('stories') }}" class="active">
+                Stories
+            </a>
 
-        <div class="story-preview">
-            {{ post.content[:250] }}
+            {% if session.get("user") %}
 
-            {% if post.content|length > 250 %}
-                ...
+                <a href="{{ url_for('new_story') }}">
+                    Write
+                </a>
+
+                <a href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+
             {% endif %}
+
+        </nav>
+
+    </header>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <h1>
+            All Stories
+        </h1>
+
+        <div class="heart-divider">
+            ─── ♥ ───
         </div>
 
-        <br>
+        <p>
+            Different people. Different lives. A shared space.
+        </p>
 
-        <a class="read-more"
-           href="{{ url_for('view_story', story_id=post.id) }}">
-            Read Story →
-        </a>
+    </section>
 
-    </div>
 
-    {% else %}
+    <!-- STORIES -->
 
-    <p>No stories have been published yet.</p>
+    <main class="stories-container">
 
-    {% endfor %}
+        {% for post in posts %}
 
-    {% if session.get("user") %}
+        <article class="story-card">
 
-    <a class="write-story"
-       href="{{ url_for('new_story') }}">
-        ✍️ Write a Story
-    </a>
+            <h2>
 
-    {% endif %}
+                <a href="{{ url_for('view_story', story_id=post.id) }}">
+                    {{ post.title }}
+                </a>
+
+            </h2>
+
+
+            <div class="story-meta">
+
+                By {{ post.author }}
+
+                ·
+
+                {{ post.created_at.strftime('%d %B %Y') }}
+
+            </div>
+
+
+            <div class="story-preview">
+
+                {{ post.content[:250] }}
+
+                {% if post.content|length > 250 %}
+                    ...
+                {% endif %}
+
+            </div>
+
+
+            <a class="read-more"
+               href="{{ url_for('view_story', story_id=post.id) }}">
+
+                Read Story →
+
+            </a>
+
+        </article>
+
+        {% else %}
+
+            <div class="story-card">
+
+                <h2>
+                    No stories yet
+                </h2>
+
+                <p class="story-preview">
+                    Your first story is waiting to be written.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+
+        <!-- WRITE -->
+
+        {% if session.get("user") %}
+
+        <div class="write-area">
+
+            <a class="write-button"
+               href="{{ url_for('new_story') }}">
+
+                ✎ &nbsp; Write a Story
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        Small stories can make a big difference. ♡
+
+    </footer>
 
 </body>
 
