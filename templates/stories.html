@@ -8,55 +8,6 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
-
-    <style>
-        body {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            font-family: Georgia, serif;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        article {
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-        }
-
-        article h2 {
-            margin-top: 0;
-        }
-
-        article h2 a {
-            text-decoration: none;
-        }
-
-        .story-preview {
-            line-height: 1.7;
-        }
-
-        .story-meta {
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .read-more {
-            text-decoration: none;
-        }
-
-        .write-story {
-            display: block;
-            text-align: center;
-            margin-top: 30px;
-            font-size: 18px;
-        }
-    </style>
 </head>
 
 <body>
@@ -65,43 +16,36 @@
 
     {% for post in posts %}
 
-        <article>
+    <div class="story-card">
 
-            <h2>
-                <a href="{{ url_for('view_story', story_id=post.id) }}">
-                    {{ post.title }}
-                </a>
-            </h2>
-
-            <div class="story-meta">
-                By {{ post.author }} ·
-                {{ post.created_at.strftime('%d %B %Y') }}
-            </div>
-
-            <p class="story-preview">
-                {{ post.content[:250] }}
-                {% if post.content|length > 250 %}...{% endif %}
-            </p>
-
-            <a class="read-more"
-               href="{{ url_for('view_story', story_id=post.id) }}">
-                Read Story →
+        <h2>
+            <a href="{{ url_for('view_story', story_id=post.id) }}">
+                {{ post.title }}
             </a>
+        </h2>
 
-        </article>
+        <p>
+            By {{ post.author }}
+        </p>
 
-    {% else %}
+        <p>
+            {{ post.content[:200] }}
+            {% if post.content|length > 200 %}...{% endif %}
+        </p>
 
-        <p>No stories published yet.</p>
+        <a href="{{ url_for('view_story', story_id=post.id) }}">
+            Read Story →
+        </a>
+
+    </div>
 
     {% endfor %}
 
-    {% if session.get("user") %}
-        <a class="write-story"
-           href="{{ url_for('new_story') }}">
-            ✍️ Write a Story
-        </a>
-    {% endif %}
+    <br>
+
+    <a href="{{ url_for('new_story') }}">
+        Write a Story
+    </a>
 
 </body>
 </html>
