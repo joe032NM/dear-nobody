@@ -57,7 +57,10 @@ with app.app_context():
 # -----------------------------
 # Home
 # -----------------------------
-
+@app.route("/google0b714c2112565072.html")
+def google_verification():
+    return send_from_directory(".", "google0b714c2112565072.html")
+    
 @app.route("/")
 def home():
     return render_template("index.html")
