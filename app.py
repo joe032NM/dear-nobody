@@ -63,26 +63,13 @@ def google_verification():
 
 @app.route("/sitemap.xml")
 def sitemap():
-    posts = Story.query.all()
-
-    urls = [
-        "https://dear-nobodyy.onrender.com/",
-        "https://dear-nobodyy.onrender.com/about",
-        "https://dear-nobodyy.onrender.com/stories"
-    ]
-
-    for post in posts:
-        urls.append(
-            f"https://dear-nobodyy.onrender.com/story/{post.id}"
-        )
-
-    sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>'
-    sitemap_xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-
-    for url in urls:
-        sitemap_xml += f"<url><loc>{url}</loc></url>"
-
-    sitemap_xml += "</urlset>"
+    sitemap_xml = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url><loc>https://dear-nobodyy.onrender.com/</loc></url>
+    <url><loc>https://dear-nobodyy.onrender.com/about</loc></url>
+    <url><loc>https://dear-nobodyy.onrender.com/stories</loc></url>
+</urlset>
+"""
 
     return sitemap_xml, 200, {"Content-Type": "application/xml"}
 
