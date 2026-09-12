@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
+import secrets
 
 app = Flask(__name__)
 
@@ -33,6 +34,20 @@ class Story(db.Model):
     content = db.Column(db.Text, nullable=False)
     author = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    story_id = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class Like(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    story_id = db.Column(db.Integer, nullable=False)
+    visitor_id = db.Column(db.String(100), nullable=False)
 
 
 with app.app_context():
@@ -73,8 +88,23 @@ def stories():
 
 @app.route("/story/<int:story_id>")
 def view_story(story_id):
+
     story = Story.query.get_or_404(story_id)
-    return render_template("story.html", story=story)
+
+    comments = Comment.query.filter_by(
+        story_id=story.id
+    ).order_by(Comment.created_at.desc()).all()
+
+    like_count = Like.query.filter_by(
+        story_id=story.id
+    ).count()
+
+    return render_template(
+        "story.html",
+        story=story,
+        comments=comments,
+        like_count=like_count
+    )
 
 
 # -----------------------------
@@ -177,6 +207,125 @@ def new_story():
         db.session.add(story)
         db.session.commit()
 
-        return redirect("/stories")
+        return redirect(url_for("view_story", story_id=story.id))
 
     return render_template("new_story.html")
+
+
+# -----------------------------
+# Edit Story
+# -----------------------------
+
+@app.route("/edit/<int:story_id>", methods=["GET", "POST"])
+def edit_story(story_id):
+
+    if "user" not in session:
+        return redirect(url_for("login"))
+
+    story = Story.query.get_or_404(story_id)
+
+    if story.author != session["user"]:
+        return "You are not allowed to edit this story."
+
+    if request.method == "POST":
+
+        story.title = request.form["title"]
+        story.content = request.form["content"]
+
+        db.session.commit()
+
+        return redirect(url_for("view_story", story_id=story.id))
+
+    return render_template(
+        "edit_story.html",
+        story=story
+    )
+
+
+# -----------------------------
+# Delete Story
+# -----------------------------
+
+@app.route("/delete/<int:story_id>", methods=["POST"])
+def delete_story(story_id):
+
+    if "user" not in session:
+        return redirect(url_for("login"))
+
+    story = Story.query.get_or_404(story_id)
+
+    if story.author != session["user"]:
+        return "You are not allowed to delete this story."
+
+    Comment.query.filter_by(story_id=story.id).delete()
+    Like.query.filter_by(story_id=story.id).delete()
+
+    db.session.delete(story)
+    db.session.commit()
+
+    return redirect(url_for("stories"))
+
+
+# -----------------------------
+# Like Story
+# -----------------------------
+
+@app.route("/like/<int:story_id>", methods=["POST"])
+def like_story(story_id):
+
+    story = Story.query.get_or_404(story_id)
+
+    if "visitor_id" not in session:
+        session["visitor_id"] = secrets.token_hex(16)
+
+    visitor_id = session["visitor_id"]
+
+    existing_like = Like.query.filter_by(
+        story_id=story.id,
+        visitor_id=visitor_id
+    ).first()
+
+    if existing_like:
+        db.session.delete(existing_like)
+    else:
+        new_like = Like(
+            story_id=story.id,
+            visitor_id=visitor_id
+        )
+
+        db.session.add(new_like)
+
+    db.session.commit()
+
+    return redirect(url_for("view_story", story_id=story.id))
+
+
+# -----------------------------
+# Add Comment
+# -----------------------------
+
+@app.route("/comment/<int:story_id>", methods=["POST"])
+def add_comment(story_id):
+
+    story = Story.query.get_or_404(story_id)
+
+    name = request.form.get("name", "").strip()
+    content = request.form.get("content", "").strip()
+
+    if not name or not content:
+        return redirect(url_for("view_story", story_id=story.id))
+
+    comment = Comment(
+        story_id=story.id,
+        name=name,
+        content=content
+    )
+
+    db.session.add(comment)
+    db.session.commit()
+
+    return redirect(url_for("view_story", story_id=story.id))
+
+
+if __name__ == "__main__":
+    app.run()
