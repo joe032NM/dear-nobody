@@ -1,55 +1,134 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-<title>Dear Nobody - Stories</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ story.title }} - Dear Nobody</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-<h1>Stories</h1>
+    <h1>{{ story.title }}</h1>
 
-<a href="{{ url_for('new_story') }}">Write a Story</a>
+    <p>
+        By {{ story.author }}
+        · {{ story.created_at.strftime('%d %B %Y') }}
+    </p>
 
-<hr>
+    <hr>
 
-{% if posts %}
+    <div>
+        {{ story.content }}
+    </div>
 
-{% for post in posts %}
+    <hr>
 
-<article>
+    <!-- LIKE -->
 
-<h2>
-<a href="{{ url_for('view_story', story_id=post.id) }}">
-{{ post.title }}
-</a>
-</h2>
+    <form action="{{ url_for('like_story', story_id=story.id) }}"
+          method="POST">
 
-<p>
-By {{ post.author }}
-· {{ post.created_at.strftime('%d %B %Y') }}
-</p>
+        <button type="submit">
+            ❤️ Like
+        </button>
 
-<p>
-{{ post.content[:250] }}
-{% if post.content|length > 250 %}...{% endif %}
-</p>
+        {{ like_count }} Likes
 
-<a href="{{ url_for('view_story', story_id=post.id) }}">
-Read story →
-</a>
+    </form>
 
-</article>
 
-<hr>
+    <!-- EDIT AND DELETE -->
 
-{% endfor %}
+    {% if session.get("user") == story.author %}
 
-{% else %}
+        <p>
+            <a href="{{ url_for('edit_story', story_id=story.id) }}">
+                ✏️ Edit Story
+            </a>
+        </p>
 
-<p>No stories have been published yet.</p>
+        <form action="{{ url_for('delete_story', story_id=story.id) }}"
+              method="POST"
+              onsubmit="return confirm('Are you sure you want to delete this story?');">
 
-{% endif %}
+            <button type="submit">
+                🗑️ Delete Story
+            </button>
+
+        </form>
+
+    {% endif %}
+
+
+    <hr>
+
+    <!-- COMMENTS -->
+
+    <h2>💬 Comments</h2>
+
+    <form action="{{ url_for('add_comment', story_id=story.id) }}"
+          method="POST">
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Your name"
+            required
+        >
+
+        <br><br>
+
+        <textarea
+            name="content"
+            rows="5"
+            placeholder="Write a comment..."
+            required
+        ></textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Post Comment
+        </button>
+
+    </form>
+
+
+    <hr>
+
+    {% for comment in comments %}
+
+        <p>
+            <strong>{{ comment.name }}</strong>
+        </p>
+
+        <p>
+            {{ comment.content }}
+        </p>
+
+        <small>
+            {{ comment.created_at.strftime('%d %B %Y') }}
+        </small>
+
+        <hr>
+
+    {% else %}
+
+        <p>No comments yet.</p>
+
+    {% endfor %}
+
+
+    <br>
+
+    <a href="{{ url_for('stories') }}">
+        ← Back to All Stories
+    </a>
 
 </body>
 
