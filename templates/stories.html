@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,76 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 30px;
+            font-family: Georgia, serif;
+            background: #ffffff;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 56px;
+            margin-bottom: 50px;
+        }
+
+        .story-card {
+            background: #ffffff;
+            border: 1px solid #d8d8d8;
+            border-radius: 14px;
+            padding: 30px 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .story-card h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 30px;
+        }
+
+        .story-card h2 a {
+            color: #222222;
+            text-decoration: none;
+        }
+
+        .story-card h2 a:hover {
+            text-decoration: underline;
+        }
+
+        .story-meta {
+            color: #666666;
+            font-size: 15px;
+            margin-bottom: 22px;
+        }
+
+        .story-preview {
+            color: #333333;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .read-more {
+            color: #7b2cbf;
+            font-size: 17px;
+            text-decoration: none;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        .write-story {
+            display: block;
+            text-align: center;
+            margin-top: 35px;
+            font-size: 20px;
+            color: #7b2cbf;
+        }
+    </style>
 </head>
 
 <body>
@@ -24,28 +95,43 @@
             </a>
         </h2>
 
-        <p>
+        <div class="story-meta">
             By {{ post.author }}
-        </p>
+            · {{ post.created_at.strftime('%d %B %Y') }}
+        </div>
 
-        <p>
-            {{ post.content[:200] }}
-            {% if post.content|length > 200 %}...{% endif %}
-        </p>
+        <div class="story-preview">
+            {{ post.content[:250] }}
 
-        <a href="{{ url_for('view_story', story_id=post.id) }}">
+            {% if post.content|length > 250 %}
+                ...
+            {% endif %}
+        </div>
+
+        <br>
+
+        <a class="read-more"
+           href="{{ url_for('view_story', story_id=post.id) }}">
             Read Story →
         </a>
 
     </div>
 
+    {% else %}
+
+    <p>No stories have been published yet.</p>
+
     {% endfor %}
 
-    <br>
+    {% if session.get("user") %}
 
-    <a href="{{ url_for('new_story') }}">
-        Write a Story
+    <a class="write-story"
+       href="{{ url_for('new_story') }}">
+        ✍️ Write a Story
     </a>
 
+    {% endif %}
+
 </body>
+
 </html>
