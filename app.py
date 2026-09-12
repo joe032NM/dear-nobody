@@ -52,7 +52,7 @@ def home():
 
 @app.route("/about")
 def about():
-return render_template("about.html")
+    return render_template("about.html")
 
 
 # -----------------------------
@@ -62,7 +62,7 @@ return render_template("about.html")
 @app.route("/stories")
 def stories():
 posts = Story.query.order_by(Story.created_at.desc()).all()
-return render_template("stories.html", posts=posts)
+    return render_template("stories.html", posts=posts)
 
 
 # -----------------------------
@@ -72,7 +72,7 @@ return render_template("stories.html", posts=posts)
 @app.route("/story/<int:story_id>")
 def view_story(story_id):
 story = Story.query.get_or_404(story_id)
-return render_template("story.html", story=story)
+    return render_template("story.html", story=story)
 
 
 # -----------------------------
